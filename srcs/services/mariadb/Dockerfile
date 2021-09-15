@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get -y update \
-    && apt-get install -y mariadb-server mariadb-client
+    && apt-get install -y mariadb-server mariadb-client netcat procps
 
 COPY conf/start.sh ./
 RUN rm /etc/mysql/mariadb.conf.d/50-server.cnf
