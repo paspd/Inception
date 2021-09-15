@@ -1,0 +1,29 @@
+FROM debian:buster
+
+RUN apt-get update
+RUN apt-get install -y nginx
+RUN apt-get install openssl
+
+COPY config/default ./
+
+#~~~Start~~~
+
+#~~~SSL~~~
+RUN openssl req -newkey rsa:4096 \
+            -x509 \
+            -sha256 \
+            -days 365 \
+            -nodes \
+            -out /etc/ssl/ldauga.crt \
+            -keyout /etc/ssl/ldauga.key \
+            -subj "/C=FR/ST=Lyon/L=Lyon/O=42School/OU=ldauga/CN=localhost"
+
+#~~~NGINX~~~
+RUN cp ./default etc/nginx/sites-available \
+	&& chown -R www-data /var/www/* \
+	&& chmod -R 755 /var/www/*
+
+#~~~Sleep infinity~~~
+CMD ["nginx", "-g", "daemon off;"]
+
+EXPOSE 443
