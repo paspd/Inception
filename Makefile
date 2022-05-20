@@ -1,9 +1,11 @@
 COMPOSE = srcs/docker-compose.yml
-CLEAN = srcs/services/tools/clean.sh
+CLEAN = srcs/requirements/tools/clean.sh
 
 all : up
 
 up :
+	mkdir -p /home/ldauga/data/wp_data
+	mkdir -p /home/ldauga/data/db_data
 	@ docker-compose -f $(COMPOSE) up -d --build
 
 # stop services
